@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hyakumeiten Map (Leaflet)</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="sidebar">
+    <h1>Hyakumeiten Map</h1>
+    <details open>
+      <summary>Filters</summary>
+      <div class="filter-row">
+        <label>都道府県</label>
+        <select id="regionSelect"><option value="">All</option></select>
+      </div>
+      <div class="filter-row">
+        <label>ジャンル</label>
+        <select id="genreSelect"><option value="">All</option></select>
+      </div>
+      <div class="filter-row">
+        <label>人均 (approx)</label>
+        <select id="priceSelect">
+          <option value="">All</option>
+          <option value="5000">≤¥5k</option>
+          <option value="10000">≤¥10k</option>
+          <option value="20000">≤¥20k</option>
+          <option value="40000">≤¥40k</option>
+        </select>
+      </div>
+      <div class="filter-row">
+        <button id="applyBtn">Apply</button>
+        <button id="resetBtn">Reset</button>
+      </div>
+    </details>
+    <details>
+      <summary>Nearby</summary>
+      <div class="filter-row">
+        <button id="locateBtn">Get my location</button>
+      </div>
+      <div class="filter-row">
+        <label>Radius (km)</label>
+        <input id="radius" type="range" min="1" max="200" value="10" /> <span id="radiusVal">10</span>km
+      </div>
+      <div class="filter-row">
+        <input id="showNearby" type="checkbox" /> <label for="showNearby">Show only within radius</label>
+      </div>
+    </details>
+    <details>
+      <summary>Data / Tips</summary>
+      <p>CSV loaded from repository: <strong>tabelog_hyakumeiten_output.csv</strong>.</p>
+      <p>Use GitHub Pages to host this folder (free).</p>
+    </details>
+  </div>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

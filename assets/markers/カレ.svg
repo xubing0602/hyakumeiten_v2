@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'>
+  <rect width='128' height='128' rx='18' fill='#512DA8'/>
+  <g transform='translate(12,18) scale(0.8)' fill='#fff'><ellipse cx='52' cy='44' rx='40' ry='20'/><path d='M28 36c10-8 30-8 44 0' stroke='#fff' stroke-width='4' fill='none'/></g>
+</svg>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hyakumeiten Map</title>
+  <!-- Google Maps will be used instead of Leaflet -->
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <h1>Hyakumeiten Map</h1>
+      <button id="toggleSidebar" class="toggle-btn" title="收起/展开">✕</button>
+    </div>
+    <details open>
+      <summary>都道府県 (複選)</summary>
+      <div class="filter-row">
+        <div id="regionCheckboxes" class="checkbox-group"></div>
+      </div>
+    </details>
+    <details open>
+      <summary>ジャンル (複選)</summary>
+      <div class="filter-row">
+        <div id="genreCheckboxes" class="checkbox-group"></div>
+      </div>
+    </details>
+    <details open>
+      <summary>人均 (複選)</summary>
+      <div class="filter-row">
+        <div id="priceCheckboxes" class="checkbox-group"></div>
+      </div>
+    </details>
+    <details open>
+      <summary>予約状況 (複選)</summary>
+      <div class="filter-row">
+        <div id="reservationCheckboxes" class="checkbox-group"></div>
+      </div>
+    </details>
+    <details>
+      <summary style="padding: 16px 18px;">
+        <span>Reset Filters</span>
+      </summary>
+      <div class="filter-row" style="padding-bottom:12px;">
+        <button id="resetBtn">Reset All</button>
+      </div>
+    </details>
+    <details>
+      <summary>Nearby</summary>
+      <div class="filter-row">
+        <button id="locateBtn">Get my location</button>
+      </div>
+      <div class="filter-row">
+        <label>Radius</label>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input id="radius" type="range" min="1" max="1800" value="10" style="flex:1;" /> 
+          <span id="radiusVal" style="min-width:45px;font-weight:600;color:var(--accent);font-size:14px;">10</span><span style="font-size:13px;color:var(--text-secondary);">km</span>
+        </div>
+      </div>
+      <div class="filter-row">
+        <label style="display:flex;align-items:center;gap:10px;margin:0;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;">
+          <input id="showNearby" type="checkbox" style="margin:0;" />
+          <span>Show only within radius</span>
+        </label>
+      </div>
+    </details>
+    <details>
+      <summary>Data / Tips</summary>
+      <div class="filter-row" style="padding:12px 18px;color:var(--text-secondary);">
+        <p style="margin:0 0 10px 0;font-size:12px;line-height:1.5;color:var(--text-secondary);">📊 CSV loaded from: <strong style="color:var(--text-primary);">tabelog_hyakumeiten_output.csv</strong></p>
+        <p style="margin:0;font-size:12px;line-height:1.5;color:var(--text-secondary);">🌐 Host on GitHub Pages for free</p>
+      </div>
+    </details>
+  </div>
+  <button id="expandSidebar" class="expand-btn" title="展开">☰</button>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+  <!-- our main script defines window.initMap which Google Maps will call -->
+  <script src="assets/main.js"></script>
+  <!-- Google Maps JS API (callback will call window.initMap). Key provided by user. -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaFVpZPOA89d58t7aKdjlaM6qTKHynx_c&callback=initMap"></script>
+</body>
+</html>
