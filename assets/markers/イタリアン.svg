@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'>
-  <rect width='128' height='128' rx='18' fill='#D32F2F'/>
-  <g transform='translate(16,16) scale(0.8)' fill='#fff'><path d='M32 8 L80 64 L32 120 Z'/><circle cx='56' cy='54' r='6' fill='#fff'/></g>
-</svg>

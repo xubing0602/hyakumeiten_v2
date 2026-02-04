@@ -20,6 +20,15 @@ const GENRE_COLORS = {
   'その他': '#757575'
 };
 
+const AVAILABLE_GENRE_JPGS = [
+  'うどん', 'うなぎ', 'お好み焼き', 'すき焼き・しゃぶしゃぶ', 'そば', 'とんかつ',
+  'アイス・ジェラート', 'アジア・エスニック', 'イタリアン', 'カフェ', 'カレー',
+  'スペイン料理', 'スイーツ', 'ステーキ・鉄板焼き', 'ハンバーガー', 'バー', 'パン',
+  'ピザ', 'フレンチ', 'ラーメン', '中国料理', '創作料理・イノベーティブ',
+  '和菓子・甘味処', '喫茶店', '天ぷら', '寿司', '居酒屋', '日本料理', '洋食',
+  '焼き鳥', '焼肉', '立ち飲み', '食堂', '餃子', '鳥料理'
+];
+
 let map;
 let allPlaces = [];
 let allMarkers = [];
@@ -61,14 +70,119 @@ function getMarkerColor(mainGenre){
   return GENRE_COLORS[mainGenre] || GENRE_COLORS['その他'];
 }
 
-function createColoredMarker(position, title, color){
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="${color}" stroke="white" stroke-width="2"/></svg>`;
+// Canvas-processed circular icon cache
+const GENRE_ICON_CACHE = {};
+
+function loadImage(url){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = ()=>resolve(img);
+    img.onerror = (e)=>reject(e);
+    img.src = url;
+  });
+}
+
+function createCircularIconFromImage(img, size){
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  const cx = size/2;
+  const cy = size/2;
+  const radius = size/2;
+
+  ctx.clearRect(0,0,size,size);
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI*2);
+  ctx.closePath();
+  ctx.clip();
+
+  // Draw the image cover-style (cover the circle)
+  const iw = img.width;
+  const ih = img.height;
+  const scale = Math.max(size/iw, size/ih);
+  const dw = iw * scale;
+  const dh = ih * scale;
+  const dx = (size - dw) / 2;
+  const dy = (size - dh) / 2;
+  ctx.drawImage(img, dx, dy, dw, dh);
+  ctx.restore();
+
+  // Add subtle white border
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius-1.5, 0, Math.PI*2);
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+  ctx.stroke();
+
+  return canvas.toDataURL('image/png');
+}
+
+// Dynamic genre JPG mapping - built from available markers
+
+
+const UNMATCHABLE_GENRES = new Set();
+
+function prepareGenreIcons(){
+  const DISPLAY_SIZE = 128;
+  const genreImageMap = {};
+  
+  // Build dynamic mapping from available JPG files
+  AVAILABLE_GENRE_JPGS.forEach(genre=>{
+    genreImageMap[genre] = `/assets/markers/${genre}.jpg`;
+  });
+
+  const urlToKeys = {};
+  Object.keys(genreImageMap).forEach(k=>{
+    const url = genreImageMap[k];
+    urlToKeys[url] = urlToKeys[url] || [];
+    urlToKeys[url].push(k);
+  });
+
+  const promises = Object.keys(urlToKeys).map(url=>{
+    return loadImage(url).then(img=>{
+      const dataUrl = createCircularIconFromImage(img, DISPLAY_SIZE);
+      urlToKeys[url].forEach(k=>{ GENRE_ICON_CACHE[k] = dataUrl; });
+    }).catch(err=>{
+      console.warn('Failed to load icon', url, err);
+    });
+  });
+
+  return Promise.all(promises);
+}
+
+function createColoredMarker(position, title, color, awardGenre){
+  const DISPLAY_SIZE = 64;
+
+  // If we already prepared a circular dataURL for this genre, use it
+  if(GENRE_ICON_CACHE[awardGenre]){
+    return {
+      url: GENRE_ICON_CACHE[awardGenre],
+      size: new google.maps.Size(DISPLAY_SIZE, DISPLAY_SIZE),
+      scaledSize: new google.maps.Size(DISPLAY_SIZE, DISPLAY_SIZE),
+      anchor: new google.maps.Point(DISPLAY_SIZE / 2, DISPLAY_SIZE / 2)
+    };
+  }
+
+  // Track unmatchable genres
+  if(awardGenre && !UNMATCHABLE_GENRES.has(awardGenre) && !AVAILABLE_GENRE_JPGS.includes(awardGenre)){
+    UNMATCHABLE_GENRES.add(awardGenre);
+  }
+
+  // Fallback to colored circle for unmatched genres
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${DISPLAY_SIZE}" height="${DISPLAY_SIZE}" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="${color}" stroke="white" stroke-width="2"/></svg>`;
   const dataURI = 'data:image/svg+xml;base64,' + btoa(svg);
   return {
     url: dataURI,
-    scaledSize: new google.maps.Size(32, 32)
+    size: new google.maps.Size(DISPLAY_SIZE, DISPLAY_SIZE),
+    scaledSize: new google.maps.Size(DISPLAY_SIZE, DISPLAY_SIZE),
+    anchor: new google.maps.Point(Math.round(DISPLAY_SIZE/2), DISPLAY_SIZE)
   };
-}
+};
+
 
 function makeInfoHtml(p){
   const title = p.restaurant_name || p.name || '';
@@ -89,7 +203,7 @@ function addMarkersForPlaces(places){
     if(!p.lat || !p.lng) return;
     const pos = {lat: Number(p.lat), lng: Number(p.lng)};
     const color = getMarkerColor(p.main_genre);
-    const icon = createColoredMarker(pos, p.restaurant_name || p.name, color);
+    const icon = createColoredMarker(pos, p.restaurant_name || p.name, color, p.award_selections_genre);
     const marker = new google.maps.Marker({position: pos, map: map, title: p.restaurant_name || p.name, icon});
     marker._place = p;
     marker.addListener('click', ()=>{
@@ -244,6 +358,7 @@ window.initMap = function(){
         rating: r.rating,
         rating_users: r.rating_users,
         main_genre: r.main_genre,
+        award_selections_genre: r.award_selections_genre,
         address_region: r.address_region,
         address_locality: r.address_locality,
         lat: r.lat,
@@ -260,10 +375,18 @@ window.initMap = function(){
       buildCheckboxes(allPlaces, 'genreCheckboxes', 'main_genre');
       buildCheckboxes(allPlaces, 'priceCheckboxes', 'price_range');
       buildCheckboxes(allPlaces, 'reservationCheckboxes', 'reservation_status');
-      addMarkersForPlaces(allPlaces);
-      console.log('Init complete');
+      // Prepare circular icons (Canvas) first, then add markers. If preparation fails, still add markers.
+      prepareGenreIcons().then(()=>{
+        addMarkersForPlaces(allPlaces);
+        console.log('Init complete (icons prepared)');
+        if(UNMATCHABLE_GENRES.size > 0){
+          console.warn('⚠️ 以下の award_selections_genre は対応する JPG ファイルが見つかりません:', Array.from(UNMATCHABLE_GENRES));
+        }
+      }).catch(()=>{
+        addMarkersForPlaces(allPlaces);
+        console.log('Init complete (icons preparation failed)');
+      });
     }
   });
 };
-
 

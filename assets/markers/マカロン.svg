@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<svg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'>
-  <rect width='128' height='128' rx='18' fill='#FBC02D'/>
-  <g transform='translate(14,18) scale(0.8)' fill='#fff'><rect x='20' y='24' width='56' height='34' rx='6'/><rect x='26' y='14' width='44' height='12' rx='6'/></g>
-</svg>
