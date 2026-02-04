@@ -132,7 +132,7 @@ function prepareGenreIcons(){
   
   // Build dynamic mapping from available JPG files
   AVAILABLE_GENRE_JPGS.forEach(genre=>{
-    genreImageMap[genre] = `/assets/markers/${genre}.jpg`;
+    genreImageMap[genre] = `./assets/markers/${encodeURIComponent(genre)}.jpg`;
   });
 
   const urlToKeys = {};
