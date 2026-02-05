@@ -6,6 +6,8 @@
   <title>Hyakumeiten Map</title>
   <!-- Google Maps will be used instead of Leaflet -->
   <link rel="stylesheet" href="assets/styles.css" />
+  <!-- Favicon will be set dynamically by JavaScript -->
+  <link id="dynamicFavicon" rel="icon" type="image/jpeg" href="">
 </head>
 <body>
   <div id="sidebar">
@@ -13,6 +15,7 @@
       <h1>Hyakumeiten Map</h1>
       <button id="toggleSidebar" class="toggle-btn" title="收起/展开">✕</button>
     </div>
+    <div id="resultCount" class="result-count">符合要求: 0 家餐厅</div>
     <details open>
       <summary>都道府県 (複選)</summary>
       <div class="filter-row">
@@ -35,6 +38,16 @@
       <summary>予約状況 (複選)</summary>
       <div class="filter-row">
         <div id="reservationCheckboxes" class="checkbox-group"></div>
+      </div>
+    </details>
+    <details open>
+      <summary>評定 (Rating)</summary>
+      <div class="filter-row">
+        <label>Minimum Rating</label>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input id="ratingSlider" type="range" min="3.00" max="5.00" step="0.01" value="3.0" style="flex:1;" /> 
+          <span id="ratingVal" style="min-width:45px;font-weight:600;color:var(--accent);font-size:14px;">3.0</span>
+        </div>
       </div>
     </details>
     <details>

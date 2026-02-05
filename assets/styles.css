@@ -1,6 +1,7 @@
 :root{--sidebar-width:320px;--accent:#5B7FFF;--accent-light:#7B9FFF;--accent-dark:#3D5FDD;--bg-light:#f5f7fc;--bg-lighter:#fafbfd;--border-color:#d8dce6;--text-primary:#1a1a2e;--text-secondary:#555;--success:#4ecca3;--shadow-sm:0 1px 3px rgba(91, 127, 255, 0.12);--shadow-md:0 4px 12px rgba(91, 127, 255, 0.15);--shadow-lg:0 12px 32px rgba(91, 127, 255, 0.2);--transition:all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 html,body,#map{height:100%}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Hiragino Kaku Gothic ProN','ヒラギノ角ゴ Pro',sans-serif;display:flex;background:#f0f2f8}
+body{margin:0;font-family:'Inter','Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;display:flex;background:#f0f2f8}
 #sidebar{width:var(--sidebar-width);padding:0;box-sizing:border-box;background:linear-gradient(180deg, #ffffff 0%, var(--bg-lighter) 100%);overflow-y:auto;transition:margin-left var(--transition);box-shadow:4px 0 20px rgba(91, 127, 255, 0.18);position:relative;z-index:100}
 #sidebar.collapsed{margin-left:calc(var(--sidebar-width) * -1)}
 #sidebar::-webkit-scrollbar{width:6px}
@@ -40,6 +41,16 @@ button:active{transform:translateY(0)}
 #resetBtn{flex:1;margin:8px 0 4px 0;background:linear-gradient(135deg, #f0f2f8 0%, #e8ecf5 100%);color:var(--text-primary);border:1px solid var(--border-color);box-shadow:0 2px 6px rgba(0,0,0,0.04)}
 #resetBtn:hover{background:linear-gradient(135deg, #e8ecf5 0%, #dce2f0 100%);box-shadow:0 4px 10px rgba(0,0,0,0.08)}
 .filter-row:has(#resetBtn){display:flex;flex-direction:column;gap:0;padding-bottom:12px}
+.result-count{padding:12px 18px;font-size:14px;font-weight:600;color:var(--accent);background:linear-gradient(90deg, rgba(91, 127, 255, 0.08) 0%, transparent 100%);border-bottom:1px solid var(--border-color);position:sticky;top:80px;z-index:9}
+/* Genre category styling */
+.genre-category{display:flex;align-items:center;padding:14px 14px;background:linear-gradient(90deg, rgba(91, 127, 255, 0.12) 0%, rgba(91, 127, 255, 0.04) 100%);border-bottom:2px solid var(--accent-light);font-weight:700;font-size:14px;cursor:pointer;margin-top:8px;border-radius:6px 6px 0 0}
+.genre-category:hover{background:linear-gradient(90deg, rgba(91, 127, 255, 0.16) 0%, rgba(91, 127, 255, 0.06) 100%)}
+.genre-category input[type="checkbox"]{margin-right:12px;cursor:pointer;accent-color:var(--accent);width:18px;height:18px;border-radius:4px}
+.genre-category .category-label{margin:0;font-size:14px;cursor:pointer;font-weight:700;color:var(--accent);flex:1;transition:color 0.2s ease}
+.subgenre-item{padding-left:38px;font-size:12px;background:#fafbfd}
+.subgenre-item:last-of-type{border-radius:0 0 6px 6px;border-bottom:1px solid var(--accent-light)}
+.subgenre-item label{font-size:12px;color:var(--text-secondary)}
+.subgenre-item:hover label{color:var(--text-primary)}
 .checkbox-group{display:flex;flex-direction:column;gap:0;margin:8px 0;background:#fff;border-radius:10px;border:1px solid var(--border-color);overflow:hidden;max-height:240px;overflow-y:auto;box-shadow:inset 0 1px 3px rgba(0,0,0,0.02)}
 .checkbox-group::-webkit-scrollbar{width:4px}
 .checkbox-group::-webkit-scrollbar-track{background:transparent}
@@ -52,7 +63,37 @@ button:active{transform:translateY(0)}
 .checkbox-item input[type="checkbox"]:checked{box-shadow:0 0 0 2px rgba(91, 127, 255, 0.3)}
 .checkbox-item label{margin:0;font-size:13px;cursor:pointer;font-weight:400;color:var(--text-secondary);flex:1;transition:color 0.2s ease}
 .checkbox-item:hover label{color:var(--text-primary)}
-.gm-style-iw{font-size:13px!important;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15)!important}
-.gm-style-iw img{max-width:200px;display:block;margin-top:8px;border-radius:6px}
+/* Enhanced InfoWindow styling */
+.gm-style-iw{font-size:13px!important;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.18)!important;background:#fff!important;border:none!important;padding:0!important}
+.gm-style-iw-d{overflow:visible!important}
+.info-window{font-family:'Noto Sans SC','Noto Sans JP','Inter',sans-serif;padding:16px;background:#fff}
+.info-image{max-width:100%;width:100%;height:auto;border-radius:8px;margin-bottom:12px;display:block;object-fit:cover}
+.info-title{margin:0 0 12px 0;font-size:18px;font-weight:700;color:var(--text-primary);line-height:1.3;font-family:'Noto Sans SC','Noto Sans JP',sans-serif;letter-spacing:-0.3px}
+.info-genre,.info-rating,.info-price,.info-reservation{font-size:13px;color:var(--text-primary);margin:8px 0;line-height:1.5;display:flex;align-items:center;gap:8px}
+.info-genre .label,.info-rating .label,.info-price .label,.info-reservation .label{font-weight:600;color:var(--accent);min-width:50px}
+.info-rating{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px;color:var(--text-primary)}
+.info-rating .stars{font-size:14px;color:#f4a460;letter-spacing:1px}
+.info-rating .rating-value, .info-rating .rating-count{font-size:12px;color:var(--text-secondary)}
+.info-footer{margin-top:12px;padding-top:12px;border-top:1px solid #f0f2f8;display:flex;justify-content:flex-start}
+.info-link{display:inline-block;padding:8px 14px;background:linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 100%);color:#fff;text-decoration:none;border-radius:6px;font-size:12px;font-weight:600;transition:all 0.2s ease;box-shadow:0 2px 6px rgba(91, 127, 255, 0.2)}
+.info-link:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(91, 127, 255, 0.3)}
+.gm-style-iw img{max-width:100%;display:block;border-radius:8px}
 #map{flex:1;background:#e8ecf5}
+/* Multilingual font support */
+html{font-family:'Inter','Segoe UI',Roboto,sans-serif}
+html:lang(zh),
+html:lang(zh-CN),
+html:lang(zh-Hans),
+#sidebar,
+.sidebar-header h1,
+.checkbox-item label,
+details summary{font-family:'Noto Sans SC','Noto Sans JP','Inter',sans-serif}
+/* Chinese text - prioritize Noto Sans SC */
+:lang(zh),:lang(zh-CN),:lang(zh-Hans){font-family:'Noto Sans SC',sans-serif}
+/* Japanese text - Noto Sans JP */
+:lang(ja){font-family:'Noto Sans JP','Noto Sans SC',sans-serif}
+/* English text - Inter or system */
+:lang(en){font-family:'Inter','Segoe UI',Roboto,sans-serif}
+/* Checkbox labels with Chinese genres */
+.checkbox-item label{font-family:'Noto Sans SC','Noto Sans JP','Inter',sans-serif}
 @media (max-width:900px){#sidebar{position:absolute;z-index:1000;background:linear-gradient(180deg, #ffffff 0%, var(--bg-lighter) 100%);left:8px;top:8px;width:90%;max-width:360px;height:auto;border-radius:12px;box-shadow:var(--shadow-lg)}}

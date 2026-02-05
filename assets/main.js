@@ -29,6 +29,151 @@ const AVAILABLE_GENRE_JPGS = [
   '焼き鳥', '焼肉', '立ち飲み', '食堂', '餃子', '鳥料理'
 ];
 
+// Genre Chinese translations (for bilingual display)
+const GENRE_CN_MAPPING = {
+    '甜点与面包': {
+        'パン': '面包',
+        'ケーキ': '蛋糕',
+        'スイーツ': '甜点',
+        '和菓子': '日式点心',
+        'ジェラート・アイスクリーム': '意式冰淇淋・冰淇淋',
+        'チョコレート': '巧克力',
+        '甘味処': '日式甜品店',
+        'かき氷': '刨冰',
+        '洋菓子': '西式甜点',
+        'ドーナツ': '甜甜圈',
+        'ベーグル': '贝果',
+        'たい焼き・大判焼き': '鲷鱼烧・今川烧',
+        '焼き芋・大学芋': '烤红薯・拔丝红薯',
+        'マカロン': '马卡龙',
+        'フルーツパーラー': '水果甜品店',
+        'バームクーヘン': '年轮蛋糕',
+        'クレープ・ガレット': '可丽饼・法式薄饼',
+        'パンケーキ': '松饼',
+        '中華菓子': '中式点心',
+        'ソフトクリーム': '软冰淇淋',
+        'カステラ': '长崎蛋糕',
+        'プリン': '布丁',
+        'せんべい': '仙贝',
+        'どら焼き': '铜锣烧',
+    },
+    '日本料理': {
+        '寿司': '寿司',
+        'うなぎ': '鳗鱼',
+        '日本料理': '日本料理',
+        '料理旅館': '料理旅馆',
+        '天ぷら': '天妇罗',
+        '海鮮': '海鲜',
+        '棒寿司': '棒寿司',
+        '郷土料理': '乡土料理',
+        '回転寿司': '回转寿司',
+        '豆腐料理': '豆腐料理',
+        '立ち食い寿司': '立食寿司',
+        '食堂': '大众食堂',
+        '立ち飲み': '立饮居酒屋',
+        '居酒屋': '居酒屋',
+        'スープカレー': '汤咖喱'
+    },
+    '面类与粉物': {
+        'うどん': '乌冬面',
+        'カレーうどん': '咖喱乌冬',
+        'ラーメン': '拉面',
+        'そば': '荞麦面',
+        'お好み焼き': '御好烧',
+        '冷麺': '冷面',
+        'つけ麺': '蘸面',
+        '沖縄そば': '冲绳面',
+        '立ち食いそば': '立食荞麦面',
+        '担々麺': '担担面',
+        '油そば・まぜそば': '油面・拌面'
+    },
+    '肉料理': {
+        'しゃぶしゃぶ': '涮涮锅',
+        'とんかつ': '炸猪排',
+        'すき焼き': '寿喜烧',
+        '牛料理': '牛肉料理',
+        '焼き鳥': '烧鸟',
+        '焼肉': '烧肉',
+        '豚しゃぶ': '猪肉涮涮锅',
+        'ステーキ': '牛排',
+        'ホルモン': '内脏',
+        '鉄板焼き': '铁板烧',
+        'シュラスコ': '巴西烤肉',
+        '牛タン': '牛舌',
+        '鳥料理': '鸡肉料理'
+    },
+    '西餐与洋食': {
+        'スペイン料理': '西班牙菜',
+        'イタリアン': '意大利菜',
+        'フレンチ': '法国菜',
+        'ハンバーガー': '汉堡',
+        'ピザ': '披萨',
+        '洋食': '日式西餐',
+        'ハンバーグ': '汉堡排',
+        'ビストロ': '小酒馆',
+        'スープ': '汤品',
+        'オムライス': '蛋包饭',
+        'コロッケ': '可乐饼',
+        'イノベーティブ': '创新菜',
+        '創作料理': '创意料理',
+        'カレー': '咖喱'
+    },
+    '世界料理': {
+        '中華料理': '中华料理',
+        '四川料理': '四川菜',
+        '韓国料理': '韩国菜',
+        'インドカレー': '印度咖喱',
+        'インド料理': '印度菜',
+        'タイ料理': '泰国菜',
+        '餃子': '饺子',
+        'ベトナム料理': '越南菜',
+        '南アジア料理': '南亚菜',
+        '飲茶・点心': '饮茶・点心',
+        'スリランカ料理': '斯里兰卡菜',
+        'パキスタン料理': '巴基斯坦菜',
+        '台湾料理': '台湾菜',
+        'アジア・エスニック': '亚洲・民族特色菜',
+        'ネパール料理': '尼泊尔菜',
+        'シンガポール料理': '新加坡菜',
+        '東南アジア料理': '东南亚菜',
+        'インドネシア料理': '印尼菜',
+        'バインミー': '越南法包',
+        'ペルー料理': '秘鲁菜',
+        'タコス': '塔可',
+        'トルコ料理': '土耳其菜',
+        '中東料理': '中东菜',
+        'メキシコ料理': '墨西哥菜',
+        'モロッコ料理': '摩洛哥菜',
+        'アフリカ料理': '非洲菜',
+        '中南米料理': '中南美料理',
+        'ブラジル料理': '巴西菜'
+    },
+    '咖啡与酒': {
+        'バー': '酒吧',
+        '喫茶店': '咖啡馆',
+        'ジューススタンド': '果汁摊',
+        'カフェ': '咖啡店',
+        'コーヒースタンド': '咖啡摊',
+        'ワインバー': '红酒吧'
+    }
+};
+
+// Function to get display text for genre (Chinese - Japanese)
+function getGenreDisplayName(jpName) {
+  const cn = GENRE_CN_MAPPING[jpName];
+  if(cn) {
+    return `${cn} - ${jpName}`;
+  }
+  return jpName;
+}
+
+// Sort genres by Chinese characters (using localeCompare for Chinese)
+function sortByChinese(a, b) {
+  const aCn = GENRE_CN_MAPPING[a] || a;
+  const bCn = GENRE_CN_MAPPING[b] || b;
+  return aCn.localeCompare(bCn, 'zh-CN');
+}
+
 let map;
 let allPlaces = [];
 let allMarkers = [];
@@ -72,6 +217,8 @@ function getMarkerColor(mainGenre){
 
 // Canvas-processed circular icon cache
 const GENRE_ICON_CACHE = {};
+
+const UNMATCHABLE_GENRES = new Set();
 
 function loadImage(url){
   return new Promise((resolve, reject)=>{
@@ -122,9 +269,6 @@ function createCircularIconFromImage(img, size){
 }
 
 // Dynamic genre JPG mapping - built from available markers
-
-
-const UNMATCHABLE_GENRES = new Set();
 
 function prepareGenreIcons(){
   const DISPLAY_SIZE = 128;
@@ -186,14 +330,21 @@ function createColoredMarker(position, title, color, awardGenre){
 
 function makeInfoHtml(p){
   const title = p.restaurant_name || p.name || '';
-  const rating = p.rating? `<div>Rating: <span style="color: #f4a460;">${generateStars(p.rating)}</span> ${p.rating} / ${p.rating_users || 0} </div>`: '';
-  const mainGenre = p.main_genre? `<div>Genre: ${p.main_genre}</div>`: '';
-  // const addr = p.address_region? `<div>Region: ${p.address_region} ${p.address_locality || ''}</div>`: '';
-  const priceRange = p.price_range? `<div>Price Range: ${p.price_range}</div>`: '';
-  const img = p.image? `<img data-src="${p.image}" style="max-width:200px;display:block;margin-top:6px;"/>` : '';
-  const reservationStatus = p.reservation_status? `<div>Reservation Status: ${p.reservation_status}</div>`: '';
-  const link = p.tabelog_site? `<div><a href="${p.tabelog_site}" target="_blank" rel="noopener">Tabelog Site</a></div>`: '';
-  return `<div>${img}<h3>${title}</h3>${mainGenre}${rating}${priceRange}${reservationStatus}${link}</div>`;
+  const rating = p.rating? `<div class="info-rating"><span class="label">评分:</span><span class="stars">${generateStars(p.rating)}</span>${p.rating} / ${p.rating_users || 0}</span></div>`: '';
+  const mainGenre = p.main_genre? `<div class="info-genre"><span class="label">类别:</span> ${p.main_genre}</div>`: '';
+  const priceRange = p.price_range? `<div class="info-price"><span class="label">人均消费:</span> ${p.price_range}</div>`: '';
+  const img = p.image? `<img data-src="${p.image}" class="info-image"/>` : '';
+  const reservationStatus = p.reservation_status? `<div class="info-reservation"><span class="label">预约要求:</span> ${p.reservation_status}</div>`: '';
+  const link = p.tabelog_site? `<a href="${p.tabelog_site}" target="_blank" rel="noopener" class="info-link">Tabelog</a>`: '';
+  return `<div class="info-window">
+    ${img}
+    <h3 class="info-title">${title}</h3>
+    ${mainGenre}
+    ${rating}
+    ${priceRange}
+    ${reservationStatus}
+    ${link ? `<div class="info-footer">${link}</div>` : ''}
+  </div>`;
 }
 
 function addMarkersForPlaces(places){
@@ -220,22 +371,123 @@ function addMarkersForPlaces(places){
     });
     allMarkers.push(marker);
   });
+  // Update result count display
+  const countEl = document.getElementById('resultCount');
+  if(countEl){
+    countEl.textContent = `符合要求: ${allMarkers.length} 家餐厅`;
+  }
   console.log('Markers added:', allMarkers.length);
 }
 
 function buildCheckboxes(list, containerId, key, options = {}){
   const container = document.getElementById(containerId);
   container.innerHTML = '';
-  const uniq = Array.from(new Set(list.map(x=>x[key]).filter(Boolean)));
+  let uniq = Array.from(new Set(list.map(x=>x[key]).filter(x => x !== null && x !== undefined && x !== '')));
+  
+  // Handle empty values for reservation_status and price_range
+  const hasEmptyValue = list.some(x => !x[key] || x[key] === '');
+  if(hasEmptyValue && (key === 'reservation_status' || key === 'price_range')){
+    uniq.push('UNKNOWN_PLACEHOLDER');
+  }
+  
+  // Special handling for main_genre: build grouped structure
+  if(key === 'main_genre'){
+    // Category order
+    const categoryOrder = ['日本料理','面类与粉物','肉料理','西餐与洋食','世界料理','甜点与面包','咖啡与酒'];
+    
+    categoryOrder.forEach(category => {
+      const subgenres = GENRE_CN_MAPPING[category];
+      if(!subgenres) return;
+      
+      // Check if any subgenre is in our data
+      const availableSubgenres = Object.keys(subgenres).filter(sg => uniq.includes(sg));
+      if(availableSubgenres.length === 0) return;
+      
+      // Create category header with checkbox
+      const categoryDiv = document.createElement('div');
+      categoryDiv.className = 'genre-category';
+      
+      const categoryCheckbox = document.createElement('input');
+      categoryCheckbox.type = 'checkbox';
+      categoryCheckbox.id = `category_${category}`;
+      categoryCheckbox.dataset.category = category;
+      categoryCheckbox.className = 'category-checkbox';
+      
+      const categoryLabel = document.createElement('label');
+      categoryLabel.htmlFor = `category_${category}`;
+      categoryLabel.textContent = category;
+      categoryLabel.className = 'category-label';
+      
+      categoryCheckbox.addEventListener('change', (e) => {
+        // Toggle all subgenres in this category
+        const checkboxes = container.querySelectorAll(`.subgenre-checkbox[data-category="${category}"]`);
+        checkboxes.forEach(cb => {
+          cb.checked = e.target.checked;
+        });
+        applyFilters();
+      });
+      
+      categoryDiv.appendChild(categoryCheckbox);
+      categoryDiv.appendChild(categoryLabel);
+      container.appendChild(categoryDiv);
+      
+      // Sort subgenres by Chinese
+      const sortedSubgenres = availableSubgenres.sort((a, b) => {
+        const aCn = subgenres[a];
+        const bCn = subgenres[b];
+        return aCn.localeCompare(bCn, 'zh-CN');
+      });
+      
+      // Add subgenres
+      sortedSubgenres.forEach(subgenre => {
+        const div = document.createElement('div');
+        div.className = 'checkbox-item subgenre-item';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `subgenre_${subgenre}`;
+        checkbox.value = subgenre;
+        checkbox.dataset.filterKey = key;
+        checkbox.dataset.category = category;
+        checkbox.className = 'subgenre-checkbox';
+        
+        checkbox.addEventListener('change', () => {
+          // Update category checkbox state
+          const allCheckboxes = container.querySelectorAll(`.subgenre-checkbox[data-category="${category}"]`);
+          const checkedCount = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+          const categoryCheckbox = container.querySelector(`#category_${category}`);
+          categoryCheckbox.indeterminate = checkedCount > 0 && checkedCount < allCheckboxes.length;
+          categoryCheckbox.checked = checkedCount === allCheckboxes.length;
+          applyFilters();
+        });
+        
+        const displayValue = `${subgenres[subgenre]} - ${subgenre}`;
+        const label = document.createElement('label');
+        label.htmlFor = `subgenre_${subgenre}`;
+        label.textContent = displayValue;
+        
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        container.appendChild(div);
+      });
+    });
+    return;
+  }
+  
   let sorted = uniq;
   
   if(key === 'address_region'){
     sorted = uniq.sort((a,b)=>JAPAN_REGIONS.indexOf(a)-JAPAN_REGIONS.indexOf(b));
   } else if(key === 'price_range'){
-    // Sort price ranges by numeric value
-    sorted = uniq.map(v => ({val: v, num: parsePrice(v) || 0}))
+    // Sort price ranges by numeric value, handling UNKNOWN_PLACEHOLDER
+    sorted = uniq.filter(v => v !== 'UNKNOWN_PLACEHOLDER')
+      .map(v => ({val: v, num: parsePrice(v) || 0}))
       .sort((a,b) => a.num - b.num)
       .map(x => x.val);
+    // Add UNKNOWN at the end if present
+    if(uniq.includes('UNKNOWN_PLACEHOLDER')){
+      sorted.push('UNKNOWN_PLACEHOLDER');
+    }
   } else {
     sorted = uniq.sort();
   }
@@ -243,11 +495,20 @@ function buildCheckboxes(list, containerId, key, options = {}){
   sorted.forEach(v=>{
     const div = document.createElement('div');
     div.className = 'checkbox-item';
-    const id = `${key}_${v.replace(/\s|[^\w]/g,'_')}`;
+    let displayValue = v;
+    if(v === 'UNKNOWN_PLACEHOLDER'){
+      displayValue = '未知';
+    } else if(v.replace(/&nbsp;/g, ' ').trim() === ''){
+      displayValue = '未知';
+    } else {
+      displayValue = v.replace(/&nbsp;/g, ' ').trim();
+    }
+    
+    const id = `${key}_${displayValue.replace(/\s|[^\w]/g,'_')}`;
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = id;
-    checkbox.value = v;
+    checkbox.value = v === 'UNKNOWN_PLACEHOLDER' ? '' : v;
     checkbox.dataset.filterKey = key;
     
     // Add auto-apply listener
@@ -255,7 +516,7 @@ function buildCheckboxes(list, containerId, key, options = {}){
     
     const label = document.createElement('label');
     label.htmlFor = id;
-    label.textContent = v;
+    label.textContent = displayValue;
     div.appendChild(checkbox);
     div.appendChild(label);
     container.appendChild(div);
@@ -265,7 +526,9 @@ function buildCheckboxes(list, containerId, key, options = {}){
 function getSelectedCheckboxes(containerId){
   const container = document.getElementById(containerId);
   const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
-  return Array.from(checkboxes).map(cb=>cb.value);
+  return Array.from(checkboxes)
+    .filter(cb => !cb.classList.contains('category-checkbox')) // Exclude category checkboxes
+    .map(cb=>cb.value);
 }
 
 function applyFilters(){
@@ -273,14 +536,40 @@ function applyFilters(){
   const genres = getSelectedCheckboxes('genreCheckboxes');
   const prices = getSelectedCheckboxes('priceCheckboxes');
   const reservations = getSelectedCheckboxes('reservationCheckboxes');
+  const minRating = Number(document.getElementById('ratingSlider').value);
   const showNearby = document.getElementById('showNearby').checked;
   const radiusKm = Number(document.getElementById('radius').value);
 
   let filtered = allPlaces.filter(p=>p.lat && p.lng);
   if(regions.length > 0) filtered = filtered.filter(p=>regions.includes(p.address_region));
   if(genres.length > 0) filtered = filtered.filter(p=>genres.includes(p.main_genre));
-  if(prices.length > 0) filtered = filtered.filter(p=>prices.includes(p.price_range));
-  if(reservations.length > 0) filtered = filtered.filter(p=>reservations.includes(p.reservation_status));
+  if(prices.length > 0) filtered = filtered.filter(p=>{
+    const hasEmpty = prices.includes('');
+    const hasNonEmpty = prices.some(pr => pr !== '');
+    if(hasEmpty && hasNonEmpty){
+      return prices.includes(p.price_range) || !p.price_range;
+    } else if(hasEmpty){
+      return !p.price_range;
+    } else {
+      return prices.includes(p.price_range);
+    }
+  });
+  if(reservations.length > 0) filtered = filtered.filter(p=>{
+    const hasEmpty = reservations.includes('');
+    const hasNonEmpty = reservations.some(r => r !== '');
+    if(hasEmpty && hasNonEmpty){
+      return reservations.includes(p.reservation_status) || !p.reservation_status;
+    } else if(hasEmpty){
+      return !p.reservation_status;
+    } else {
+      return reservations.includes(p.reservation_status);
+    }
+  });
+  // Filter by minimum rating
+  filtered = filtered.filter(p=>{
+    const rating = p.rating ? Number(p.rating) : 0;
+    return rating >= minRating;
+  });
   if(showNearby && currentPosition){
     const [lat, lng] = currentPosition;
     filtered = filtered.filter(p=>{
@@ -300,12 +589,18 @@ function resetFilters(){
   document.getElementById('showNearby').checked=false;
   document.getElementById('radius').value=10;
   document.getElementById('radiusVal').textContent='10';
+  document.getElementById('ratingSlider').value=3.00;
+  document.getElementById('ratingVal').textContent='3.00';
   addMarkersForPlaces(allPlaces);
 }
 
 document.getElementById('resetBtn').addEventListener('click', resetFilters);
 document.getElementById('radius').addEventListener('input', e=>{ 
   document.getElementById('radiusVal').textContent = e.target.value;
+  applyFilters();
+});
+document.getElementById('ratingSlider').addEventListener('input', e=>{
+  document.getElementById('ratingVal').textContent = e.target.value;
   applyFilters();
 });
 document.getElementById('showNearby').addEventListener('change', applyFilters);
@@ -322,6 +617,10 @@ document.getElementById('locateBtn').addEventListener('click', ()=>{
 });
 
 window.initMap = function(){
+  // Set favicon from asset folder
+  const faviconHref = `/assets/favicon/v1.jpg`;
+  document.getElementById('dynamicFavicon').href = faviconHref;
+  
   map = new google.maps.Map(document.getElementById('map'), {center:{lat:36.0,lng:138.0}, zoom:5});
   infoWindow = new google.maps.InfoWindow({maxWidth:320});
 
